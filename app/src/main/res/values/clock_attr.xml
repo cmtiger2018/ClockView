@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <declare-styleable name="ClockBoard">
+
+        <!--表盘的间距-->
+        <attr name="cb_padding" format="dimension"/>
+
+        <attr name="cb_second_pointer_width" format="dimension"/>
+        <attr name="cb_minute_pointer_width" format="dimension"/>
+        <attr name="cb_hour_pointer_width" format="dimension"/>
+        
+        <attr name="cb_width_long" format="dimension"/>
+        <attr name="cb_width_short" format="dimension"/>
+        
+        <attr name="cb_color_long" format="color"/>
+        <attr name="cb_color_short" format="color"/>
+        <attr name="cb_second_pointer_color" format="color"/>
+        <attr name="cb_minute_pointer_color" format="color"/>
+        <attr name="cb_hour_pointer_color" format="color"/>
+
+        
+
+
+
+
+    </declare-styleable>
+
+</resources>
