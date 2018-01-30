@@ -5,12 +5,15 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
 import com.cmtiger.clockview.R;
+
+import java.util.Calendar;
 
 /**
  * Created by yuxingxing on 2018/1/22.
@@ -40,6 +43,8 @@ public class ClockView extends View {
     //表盘刻度长线及短线颜色
     private float mWidthLong;
     private float mWidthShort;
+
+    private int mTextSize;
 
     private Paint mPaint;
 
@@ -111,6 +116,7 @@ public class ClockView extends View {
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);////获取高度
 
 
+
         if (widthMode == MeasureSpec.AT_MOST || widthMode == MeasureSpec.UNSPECIFIED || heightMode == MeasureSpec.AT_MOST || heightMode == MeasureSpec.UNSPECIFIED) {
 
             try {
@@ -155,6 +161,7 @@ public class ClockView extends View {
         drawCirCle(canvas, mWidth, mHeight);
         drawScale(canvas);
 
+        drawSecond(canvas);
         canvas.restore();
 
     }
@@ -190,6 +197,8 @@ public class ClockView extends View {
                 mPaint.setColor(Color.BLACK);
                 lineWidth = 40;
 
+                int text = (i / 5) == 0 ? 12 : i / 5;
+                drawText(canvas, String.valueOf(text));
             } else {// 非整点 画短线
 
                 lineWidth = 30;
@@ -210,10 +219,61 @@ public class ClockView extends View {
     }
 
     /**
+     * 绘制文字
+     * @param canvas
+     * @param text
+     */
+    private void drawText(Canvas canvas, String text) {
+
+        mTextSize = 24;
+        mPaint.setColor(Color.BLACK);
+        mPaint.setTextSize(mTextSize);
+
+
+        Rect textBound = new Rect();
+        mPaint.getTextBounds(text, 0, text.length(), textBound);
+
+        int textTop = textBound.bottom - textBound.top;
+        int textWidth = textBound.right - textBound.left;
+
+        canvas.save();
+
+        int startX = getWidth() / 2 - textWidth / 2;
+        int startY = getHeight() / 2 - getWidth() / 2 + dip2px(35);
+
+        canvas.drawText(text, startX, startY, mPaint);
+        canvas.rotate(360 / 12, getWidth() / 2, getHeight() / 2);
+        canvas.restore();
+
+    }
+
+    /**
      * 绘制秒针
      */
-    private void drawSecond() {
+    private void drawSecond(Canvas canvas) {
 
+        Calendar calendar = Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        int second = calendar.get(Calendar.SECOND);
+
+        mPaint.setColor(Color.BLACK);
+        mPaint.setStrokeWidth(dip2px(2));
+
+        int angleSecond = second * 360 / 60;
+
+        canvas.save();
+
+        canvas.rotate(angleSecond);
+        canvas.drawLine(getWidth() / 2, getWidth()/2, getWidth()/2 ,getHeight() / 2 - getWidth() / 2, mPaint);
+
+        canvas.restore();
+
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
     }
 
     /**
