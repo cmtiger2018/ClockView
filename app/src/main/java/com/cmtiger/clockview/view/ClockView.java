@@ -157,9 +157,6 @@ public class ClockView extends View {
 
         canvas.restore();
 
-
-
-
     }
 
     /**
@@ -174,6 +171,10 @@ public class ClockView extends View {
         canvas.drawCircle(mWidth / 2, mHeight / 2, mWidth / 2 - mCircleWith, mPaint);
     }
 
+    /**
+     * 绘制刻度
+     * @param canvas
+     */
     private void drawScale(Canvas canvas) {
 
         canvas.save();
@@ -202,6 +203,10 @@ public class ClockView extends View {
         }
 
         canvas.restore();
+    }
+
+    private void drawText() {
+
     }
 
     /**
